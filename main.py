@@ -139,6 +139,8 @@ class CuratedNews:
     def __init__(self):
         self.apikey = os.getenv('NEWS_API_KEY')
         self.endpoint = f"https://newsdata.io/api/1/latest?apikey={self.apikey}&q=india"
+        self.scam_endpoint = f"https://newsdata.io/api/1/latest?apikey={self.apikey}&q=scam"
+
     
     def getNews(self):
         try:
@@ -151,6 +153,19 @@ class CuratedNews:
                 return []
         except Exception as e:
             st.error(f"Error fetching news: {e}")
+            return []
+
+    def getScamAlerts(self):
+        try:
+            response = requests.get(url=self.scam_endpoint)
+            if response.status_code == 200:
+                scam_data = response.json()
+                return scam_data.get('results', [])
+            else:
+                st.error(f"Failed to fetch scam alerts. Status code: {response.status_code}")
+                return []
+        except Exception as e:
+            st.error(f"Error fetching scam alerts: {e}")
             return []
 
 class FinancialAnalytics:
@@ -393,19 +408,37 @@ def main():
     elif app_mode == "Curated News":
         st.title("📰 Curated News")
         
-        if st.button("Fetch Latest News"):
-            news_fetcher = CuratedNews()
-            news_articles = news_fetcher.getNews()
-            
-            if news_articles:
-                for article in news_articles[:10]:
-                    st.subheader(article.get('title', 'Untitled Article'))
-                    st.write(f"Source: {article.get('source_id', 'Unknown')}")
-                    st.write(f"Description: {article.get('description', 'No description')}")
-                    st.write(f"Link: {article.get('link', 'No link available')}")
-                    st.markdown("---")
-            else:
-                st.warning("No news articles found")
+        news_fetcher = CuratedNews()
+        
+        tab1, tab2 = st.tabs(["Latest News", "Scam Alert"])
+        
+        with tab1:
+            if st.button("Fetch Latest News"):
+                news_articles = news_fetcher.getNews()
+                
+                if news_articles:
+                    for article in news_articles[:10]:
+                        st.subheader(article.get('title', 'Untitled Article'))
+                        st.write(f"Source: {article.get('source_id', 'Unknown')}")
+                        st.write(f"Description: {article.get('description', 'No description')}")
+                        st.write(f"Link: {article.get('link', 'No link available')}")
+                        st.markdown("---")
+                else:
+                    st.warning("No news articles found")
+        
+        with tab2:
+            if st.button("Fetch Scam Alerts"):
+                scam_alerts = news_fetcher.getScamAlerts()
+                
+                if scam_alerts:
+                    for alert in scam_alerts[:10]:
+                        st.subheader(alert.get('title', 'Untitled Alert'))
+                        st.write(f"Source: {alert.get('source_id', 'Unknown')}")
+                        st.write(f"Description: {alert.get('description', 'No description')}")
+                        st.write(f"Link: {alert.get('link', 'No link available')}")
+                        st.markdown("---")
+                else:
+                    st.warning("No scam alerts found")
     
     elif app_mode == "Messenger":
         st.title("📱 Message Supplier")
