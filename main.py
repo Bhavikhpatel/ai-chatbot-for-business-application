@@ -261,22 +261,6 @@ additional notes:
 def main():
     st.set_page_config(page_title="AI Assistant App", page_icon="🤖", layout="wide")
     
-    st.sidebar.header("🔑 API Configuration")
-    
-    groq_api_key = st.sidebar.text_input("Enter Groq API Key", 
-                                         value=os.getenv('GROQ_API_KEY', ''),
-                                         type="password")
-    if groq_api_key:
-        os.environ['GROQ_API_KEY'] = groq_api_key
-        st.sidebar.success("Groq API Key set successfully!")
-    
-    news_api_key = st.sidebar.text_input("Enter News API Key", 
-                                         value=os.getenv('NEWS_API_KEY', ''),
-                                         type="password")
-    if news_api_key:
-        os.environ['NEWS_API_KEY'] = news_api_key
-        st.sidebar.success("News API Key set successfully!")
-    
     st.sidebar.title("🤖 AI Assistant")
     app_mode = st.sidebar.radio("Choose a Feature", 
         [
