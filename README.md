@@ -1,10 +1,5 @@
 # 🤖 AI Business Assistant
 
-![Python Version](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.33.0-orange.svg)
-![LangChain](https://img.shields.io/badge/LangChain-0.1.16-purple.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
-
 An all-in-one AI-powered business assistant built with Streamlit. This application integrates multiple tools to streamline tasks like communication, task management, financial analysis, code generation, and staying informed with curated news.
 
 ## ✨ Key Features
@@ -87,7 +82,7 @@ Follow these instructions to set up and run the project locally.
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/ai-business-assistant.git
+    git clone <url>
     cd ai-business-assistant
     ```
 
